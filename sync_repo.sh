@@ -2,8 +2,8 @@
 
 
 # Configuration
-SOURCE_REPO=https://github.com/apache/flink.git
-TARGET_REPO=https://github.com/flink-ci/flink-mirror.git
+SOURCE_REPO=git@github.com:apache/hudi.git
+TARGET_REPO=git@github.com:apachehudi-ci/hudi-mirror.git
 TARGET_BRANCHES="master"
 
 echo "Syncing branches"
@@ -30,7 +30,7 @@ echo "Pushing branches '$TARGET_BRANCHES' to TARGET_REPO ($TARGET_REPO)"
 # generating refspec
 REFSPEC=""
 for TARGET_BRANCH in $TARGET_BRANCHES ; do
-	REFSPEC+="$TARGET_BRANCH:$TARGET_BRANCH "
+	REFSPEC+="refs/heads/$TARGET_BRANCH:refs/heads/$TARGET_BRANCH "
 done
 
 git push $TARGET_REPO $REFSPEC

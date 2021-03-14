@@ -1,0 +1,2 @@
+0 * * * * $HOME/git-repo-sync/sync_repo.sh > /dev/null 2>&1
+*/2 * * * * $HOME/git-repo-sync/run_cibot.sh > /dev/null 2>&1

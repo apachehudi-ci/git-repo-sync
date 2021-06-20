@@ -6,4 +6,4 @@ java -jar ${HOME}/ci-bot/target/ci-bot.jar \
   --azureToken ${AZURE_TOKEN} \
   --ciRepository 'apachehudi-ci/hudi-branch-ci' \
   --githubToken ${GITHUB_TOKEN} \
-  --observedRepository 'apache/hudi' --user hudi-bot --interval 300
+  --observedRepository 'apache/hudi' --user hudi-bot --interval 300 > /dev/null 2>&1 &

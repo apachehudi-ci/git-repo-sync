@@ -13,23 +13,21 @@ date > .last-sync
 
 if [ ! -d ".repo" ]; then
 	echo "SOURCE_REPO ($SOURCE_REPO) does not exist. Cloning ..."
-	git clone --mirror $SOURCE_REPO .repo
+	git init --bare .repo
+	cd .repo
+	git remote add origin $SOURCE_REPO
 else
-	# update list of current branches
-	git fetch origin 'refs/heads/release-*:refs/release-*'
+	cd .repo
 fi
 
-cd .repo
+# Fetch master and release branches with proper refspecs
+echo "Fetching master and release branches from SOURCE_REPO ($SOURCE_REPO)"
+git fetch --depth=100 origin '+refs/heads/master:refs/heads/master' '+refs/heads/release-*:refs/heads/release-*'
 
-# echo "Fetching from SOURCE_REPO ($SOURCE_REPO)"
-# git fetch origin master
-
-for RELEASE_BRANCH in `git branch -a | grep "release-" | sort -V -r | head -n 4` ; do
+# Build target branch list (use git branch without -a for local refs)
+for RELEASE_BRANCH in `git branch | sed 's|^[ *]*||' | grep "release-" | sort -V -r | head -n 4` ; do
 	TARGET_BRANCHES+=" $RELEASE_BRANCH"
 done
-
-echo "Fetching branches '$TARGET_BRANCHES' from SOURCE_REPO ($SOURCE_REPO)"
-git fetch origin $TARGET_BRANCHES
 
 echo "Pushing branches '$TARGET_BRANCHES' to TARGET_REPO ($TARGET_REPO)"
 
